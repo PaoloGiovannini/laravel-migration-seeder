@@ -31,7 +31,8 @@ class TrainsTableSeeder extends Seeder
         }
 
         while (($row = fgetcsv($file)) !== FALSE) {
-            dd($row);
+            $data[] = $row;
         }
+        return $data;
     }
 }
