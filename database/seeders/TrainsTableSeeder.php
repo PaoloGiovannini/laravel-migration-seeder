@@ -6,7 +6,6 @@ use App\Models\Train;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use Faker\Generator as Faker;
 
 class TrainsTableSeeder extends Seeder
 {
@@ -15,21 +14,24 @@ class TrainsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
+    public function run()
     {
-        for ($i = 0; $i < 20; $i++) {
+        self::getCsvContent(__DIR__ . '/trains.csv');
+    }
 
-            $new_train = new Train();
-            $new_train->azienda = $faker->randomElement(['Trenitalia', 'Italo']);
-            $new_train->stazione_partenza = $faker->randomElement(['Roma Termini', 'Roma Tiburtina', 'Firenze', 'Napoli', 'Caserta','Milano', 'Bologna']);
-            $new_train->stazione_arrivo = $faker->randomElement(['Roma Termini', 'Roma Tiburtina', 'Firenze', 'Napoli', 'Caserta','Milano', 'Bologna']);
-            $new_train->orario_partenza = $faker->dateTimeBetween('-1 week', '+1 week');
-            $new_train->orario_arrivo = $faker->dateTimeBetween('-1 week', '+1 week');
-            $new_train->codice_treno = $faker->bothify('??-######');
-            $new_train->numero_carrozze = $faker->numberBetween(1, 15);
-            $new_train->in_orario = $faker->randomElement([0, 1]);
-            $new_train->cancellato = $faker->randomElement([0, 1]);
-            $new_train->save();
+    public static function getCsvContent(string $path)
+    {
+
+        $data = [];
+
+        $file = fopen($path, 'r');
+
+        if ($file === false) {
+            exit('File non valido');
+        }
+
+        while (($row = fgetcsv($file)) !== FALSE) {
+            dd($row);
         }
     }
 }
